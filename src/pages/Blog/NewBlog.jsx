@@ -8,6 +8,7 @@ function NewBlog() {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
+  const [tags, setTags] = useState("");
 
   const addData = async (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ function NewBlog() {
         content: content,
         author: author,
         category: category,
+        tags: tags.split(',').map(tag => tag.trim()),
         createdAt: new Date()
       });
       console.log("Blog post added successfully, ID:", docRef.id);
@@ -24,6 +26,7 @@ function NewBlog() {
       setContent("");
       setAuthor("");
       setCategory("");
+      setTags("");
     } catch (error) {
       console.error("Error adding blog post:", error);
     }
@@ -75,14 +78,30 @@ function NewBlog() {
             required
           >
             <option value="">Select a category</option>
+            <option value="programming">Programming</option>
             <option value="technology">Technology</option>
+            <option value="science">Science</option>
+            <option value="health">Health</option>
+            <option value="education">Education</option>
+            <option value="business">Business</option>
             <option value="lifestyle">Lifestyle</option>
             <option value="travel">Travel</option>
             <option value="food">Food</option>
-            <option value="health">Health</option>
-            <option value="business">Business</option>
-            <option value="education">Education</option>
+            <option value="sports">Sports</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="news">News</option>
+            <option value="other">Other</option>
           </select>
+        </div>
+        <div className="form-group">
+          <input
+            className="form-input"
+            value={tags}
+            onChange={e => setTags(e.target.value)}
+            placeholder="Enter tags (comma separated)"
+            type="text"
+            name="tags"
+          />
         </div>
         <button 
           type="submit" 

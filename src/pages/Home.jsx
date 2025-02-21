@@ -54,9 +54,13 @@ const Home = () => {
        Add New Blog
      </button>
       <h1 className="home-title">Blog Yazıları</h1>
-      <div className="blog-grid" onClick={() => navigate(`/detail/${blog.id}`)}>
+      <div className="blog-grid">
         {allBlogs.map((blog, index) => (
-          <div  key={blog.id || index} className="blog-card">
+          <div 
+            key={blog.id || index} 
+            className="blog-card"
+            onClick={() => navigate(`/blogdetail/${blog.id}`)}
+          >
             <div className="blog-content">
               <h2>{blog.title}</h2>
               <p className="blog-excerpt">{blog.content}</p>
