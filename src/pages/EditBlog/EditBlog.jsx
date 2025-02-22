@@ -50,6 +50,13 @@ const formatDate = (timestamp) => {
   }
 };
 
+const calculateReadingTime = (text) => {
+  const wordsPerMinute = 200;
+  const wordCount = text.trim().split(/\s+/).length;
+  const readingTime = Math.ceil(wordCount / wordsPerMinute);
+  return readingTime;
+};
+
 const EditBlog = () => {
   const {id} = useParams()
   const navigate = useNavigate();
@@ -118,6 +125,12 @@ const EditBlog = () => {
     }
   };
 
+  const contentStats = {
+    characters: blog.content?.length || 0,
+    words: blog.content?.trim().split(/\s+/).filter(word => word.length > 0).length || 0,
+    readingTime: calculateReadingTime(blog.content || '')
+  };
+
   useEffect(() => {
     getData()
   }, [id])
@@ -144,6 +157,20 @@ const EditBlog = () => {
               value={blog.content || ''}
               onChange={(e) => setBlog({...blog, content: e.target.value})}
             />
+            <div className="content-stats">
+              <div className="stat-item">
+                <i className="fas fa-font"></i>
+                <span>Characters: <span className="stat-value">{contentStats.characters}</span></span>
+              </div>
+              <div className="stat-item">
+                <i className="fas fa-paragraph"></i>
+                <span>Words: <span className="stat-value">{contentStats.words}</span></span>
+              </div>
+              <div className="stat-item reading-time">
+                <i className="fas fa-clock"></i>
+                <span>Reading time: <span className="stat-value">{contentStats.readingTime} min</span></span>
+              </div>
+            </div>
           </div>
 
           <div className="meta-inputs">
