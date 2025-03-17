@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './NewBlog.css';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useNavigate } from 'react-router-dom';
 
 function NewBlog() {
   const [title, setTitle] = useState("");
@@ -9,7 +10,7 @@ function NewBlog() {
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
-
+  const navigate = useNavigate();
   const addData = async (e) => {
     e.preventDefault();
     try {
@@ -106,7 +107,7 @@ function NewBlog() {
         <button 
           type="submit" 
           className="submit-button"
-          
+          onClick={() => navigate('/')}
         >
           Create Blog Post
         </button>

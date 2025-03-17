@@ -6,6 +6,7 @@ import './User.css';
 const User = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState('');
   
@@ -19,12 +20,17 @@ const User = () => {
     try {
       if (isSignUp) {
         await createUserWithEmailAndPassword(auth, email, password);
+        // Here you would typically also save the username to your database
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
       navigate('/profile');
     } catch (error) {
-      setError(error.message);
+      if (error.code === 'auth/operation-not-allowed') {
+        setError('This authentication method is not enabled. Please contact support.');
+      } else {
+        setError(error.message);
+      }
     }
   };
 
@@ -34,7 +40,11 @@ const User = () => {
       await signInWithPopup(auth, provider);
       navigate('/profile');
     } catch (error) {
-      setError(error.message);
+      if (error.code === 'auth/operation-not-allowed') {
+        setError('Google sign-in is not enabled. Please contact support.');
+      } else {
+        setError(error.message);
+      }
     }
   };
 
@@ -46,6 +56,18 @@ const User = () => {
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleEmailPasswordAuth}>
+          {isSignUp && (
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+          )}
+          
           <div className="form-group">
             <input
               type="email"

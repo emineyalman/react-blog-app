@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import './BlogDetail.css'
-import {  doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const BlogDetail = () => {
@@ -35,6 +35,18 @@ const BlogDetail = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      if (window.confirm("Bu blog yazısını silmek istediğinizden emin misiniz?")) {
+        await deleteDoc(doc(db, "blogs", id));
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Delete Error:", error);
+      setError("Blog silinirken bir hata oluştu: " + error.message);
+    }
+  };
+
   useEffect(() => {
     getData()
   }, [id])
@@ -53,12 +65,30 @@ const BlogDetail = () => {
         <div className="blog-header">
           <div className="header-content">
             <h1 className="blog-title">{singleBlog.title}</h1>
-            <button 
-              className="edit-button"
-              onClick={() => navigate(`/editblog/${id}`)}
-            >
-              <i className="fas fa-edit"></i> Düzenle
-            </button>
+            <div className="button-group">
+              <button 
+                className="edit-button"
+                onClick={() => navigate(`/editblog/${id}`)}
+              >
+                <i className="fas fa-edit"></i> Edit
+              </button>
+              <button 
+                className="delete-button"
+                onClick={handleDelete}
+                style={{
+                  marginLeft: '10px',
+                  background: '#dc2626',
+                  color: 'white',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                <i className="fas fa-trash"></i> Delete
+              </button>
+            </div>
           </div>
           
           <div className="blog-meta">

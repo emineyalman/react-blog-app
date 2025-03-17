@@ -85,8 +85,7 @@ select.form-input {
 .submit-button {
   width: 100%;
   padding: 1rem 1.5rem;
-  background-color: #228be6;
-  color: white;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);  color: white;
   border: none;
   border-radius: 6px;
   font-size: 1.1rem;

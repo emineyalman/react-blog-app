@@ -2,10 +2,12 @@ import React, { useEffect, useState  } from 'react'
 import './Home.css' // CSS dosyasını oluşturmanız gerekecek
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from 'react-router-dom';
+import TextClip from './TextClip';
 
 const Home = () => {
   const [allBlogs, setAllBlogs] = useState([])
-
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -33,7 +35,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-    
       <h1 className="home-title">Blog Yazıları</h1>
       <div className="blog-grid">
         {allBlogs.map((blog, index) => (
@@ -44,7 +45,7 @@ const Home = () => {
           >
             <div className="blog-content">
               <h2>{blog.title}</h2>
-              <p className="blog-excerpt">{blog.content}</p>
+              <p className="blog-excerpt">{TextClip(blog.content)}</p>
               <div className="blog-meta">
                 <span className="blog-category">{blog.category}</span>
                 <span className="blog-date">

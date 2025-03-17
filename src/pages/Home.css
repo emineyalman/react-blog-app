@@ -20,6 +20,9 @@
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s;
+ background-color: black;
+
+
 }
 
 .blog-card:hover {
@@ -52,4 +55,5 @@
   justify-content: space-between;
   color: #888;
   font-size: 0.9rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
 } 
